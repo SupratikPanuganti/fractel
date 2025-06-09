@@ -7,9 +7,6 @@ A Python client for interacting with the Birdeye API to fetch:
 - Historical price data
 - Price analysis and statistics
 
-Example Usage:
-    python birdeye_client.py
-
 Features:
     - Token list fetching with sorting and filtering
     - Historical price data with multiple time intervals
