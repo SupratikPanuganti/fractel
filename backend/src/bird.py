@@ -11,7 +11,8 @@ import os
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
-load_dotenv()
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '../.env'), override=False)
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '../.env.local'), override=True)
 
 def token_list():
     url = "https://public-api.birdeye.so/defi/tokenlist"
@@ -44,8 +45,5 @@ def token_list():
 
 # Example usage
 if __name__ == "__main__":
-    result = token_list()
-    if result:
-        pprint.pprint(result)
-    else:
-        print("Failed to fetch token list")
+    print("Testing Birdeye API key...")
+    test_api_key()

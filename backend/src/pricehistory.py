@@ -1,4 +1,3 @@
-
 import os
 import time
 from datetime import datetime, timedelta
@@ -7,7 +6,8 @@ import dotenv
 from birdeyepy import BirdEye
 
 # Load environment variables
-dotenv.load_dotenv()
+dotenv.load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '../.env'), override=False)
+dotenv.load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '../.env.local'), override=True)
 BIRDEYE_API_KEY = os.getenv("BIRDEYE_API_KEY")
 
 class BirdeyeAPI:
