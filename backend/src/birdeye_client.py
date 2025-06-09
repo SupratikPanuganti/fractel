@@ -45,7 +45,7 @@ class BirdeyeClient:
     
     def get_token_list(
         self,
-        sort_by: str = "v24ChangePercent",
+        sort_by: str = "price",
         sort_type: str = "desc",
         limit: int = 100,
         offset: int = 0
@@ -53,7 +53,7 @@ class BirdeyeClient:
         """Fetch token list with sorting and pagination.
         
         Args:
-            sort_by: Field to sort by (e.g., "v24ChangePercent")
+            sort_by: Field to sort by (e.g., "price", "volume", "marketCap")
             sort_type: Sort direction ("asc" or "desc")
             limit: Number of tokens to fetch
             offset: Starting position for pagination
@@ -67,9 +67,19 @@ class BirdeyeClient:
         }
         
         try:
+            # Add a small delay to avoid rate limits
+            time.sleep(1)
             response = requests.get(url, headers=self.headers, params=params)
             response.raise_for_status()
             return response.json()
+        except requests.exceptions.HTTPError as e:
+            if e.response.status_code == 429:
+                print("❌ Rate limit exceeded. Please wait before trying again.")
+            elif e.response.status_code == 400:
+                print("❌ Bad request. Check your parameters.")
+            else:
+                print(f"❌ HTTP Error: {e}")
+            return None
         except Exception as e:
             print(f"❌ Error fetching token list: {e}")
             return None
@@ -216,6 +226,11 @@ def main():
         print(f"\n✅ Success! Fetched {len(tokens)} tokens")
         for token in tokens:
             print(f"- {token.get('symbol', 'Unknown')}: ${token.get('price', 0):.2f}")
+    else:
+        print("❌ Token list request failed. Trying price history...")
+    
+    # Add delay between requests to avoid rate limits
+    time.sleep(2)
     
     # Test price history
     print("\nFetching price history...")
@@ -237,7 +252,7 @@ def main():
         print(f"\n✅ Success! Fetched {len(items)} data points")
         format_price_data(items, test_case['name'])
     else:
-        print("❌ Request failed. Please check your API key and parameters.")
+        print("❌ Price history request failed. Please check your API key and parameters.")
 
 if __name__ == "__main__":
     main() 
