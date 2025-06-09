@@ -6,8 +6,7 @@ A Python project for interacting with the Birdeye API to fetch token data and pr
 
 - `backend/` - Python backend code and tests
   - `src/` - Source code for the backend
-    - `bird.py` - Core Birdeye API interactions
-    - `pricehistory.py` - Historical price data fetching
+    - `birdeye_client.py` - Combined Birdeye API client for token lists and price history
     - `test_birdeye_key.py` - API key testing utility
   - `tests/` - Test files
   - `requirements.txt` - Python dependencies
@@ -49,18 +48,35 @@ A Python project for interacting with the Birdeye API to fetch token data and pr
    python src/test_birdeye_key.py
    ```
 
-5. Run other scripts from `backend/src/`:
+5. Run the Birdeye client:
+
    ```bash
-   python src/bird.py
-   python src/pricehistory.py
+   python src/birdeye_client.py
    ```
 
 ## Features
 
-- Token list fetching
-- Historical price data retrieval
-- API key validation
-- Environment variable management
+### Token List
+
+- Fetch top tokens by market cap
+- Sort by various metrics (price, volume, etc.)
+- Pagination support
+
+### Price History
+
+- Historical price data with 5-minute intervals
+- Price analysis including:
+  - Price trends (bullish/bearish)
+  - Volatility analysis
+  - High/low/average prices
+  - Price movement statistics
+
+### API Features
+
+- Rate limit handling
+- Error management
+- Environment variable support
+- Detailed logging
 
 ## Contributing
 
